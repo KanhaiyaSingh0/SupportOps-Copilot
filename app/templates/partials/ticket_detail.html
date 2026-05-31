@@ -1,0 +1,32 @@
+<article class="ticket-detail">
+  <div class="ticket-header">
+    <div>
+      <p class="eyebrow">{{ ticket.domain }} / {{ ticket.product }}</p>
+      <h2>{{ ticket.title }}</h2>
+      <p>{{ ticket.description }}</p>
+    </div>
+    <span class="priority large {{ ticket.severity|lower }}">{{ ticket.severity }}</span>
+  </div>
+
+  <dl class="facts">
+    <div><dt>Ticket</dt><dd>{{ ticket.id }}</dd></div>
+    <div><dt>Customer</dt><dd>{{ ticket.customer }}</dd></div>
+    <div><dt>Status</dt><dd>{{ ticket.status }}</dd></div>
+    <div><dt>SLA Due</dt><dd>{{ ticket.sla_due_at }}</dd></div>
+  </dl>
+
+  <button
+    hx-post="/tickets/{{ ticket.id }}/analyze"
+    hx-target="#analysis-panel"
+    hx-swap="innerHTML">
+    Analyze Ticket
+  </button>
+
+  <div id="analysis-panel">
+    {% if analysis %}
+      {% include "partials/analysis.html" %}
+    {% else %}
+      <div class="result-empty">Run AI triage to extract severity, route, next steps, and response drafts.</div>
+    {% endif %}
+  </div>
+</article>

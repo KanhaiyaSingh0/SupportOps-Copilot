@@ -1,0 +1,11 @@
+<section class="answer">
+  <p class="eyebrow">Answered by {{ mode }}</p>
+  <h3>{{ question }}</h3>
+  <p>{{ answer }}</p>
+  <h4>Sources</h4>
+  <ul>
+    {% for source in sources %}
+      <li>{{ source.title }} <span>{{ source.source }}</span></li>
+    {% endfor %}
+  </ul>
+</section>

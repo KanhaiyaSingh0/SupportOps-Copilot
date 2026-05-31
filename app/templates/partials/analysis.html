@@ -1,0 +1,31 @@
+<section class="analysis">
+  <div class="analysis-grid">
+    <div><span>Priority</span><strong>{{ analysis.priority }}</strong></div>
+    <div><span>Category</span><strong>{{ analysis.category }}</strong></div>
+    <div><span>Confidence</span><strong>{{ analysis.confidence }}</strong></div>
+    <div><span>Escalation</span><strong>{{ analysis.escalation_team }}</strong></div>
+  </div>
+
+  <h3>Impact</h3>
+  <p>{{ analysis.business_impact }}</p>
+  <p><strong>Affected users:</strong> {{ analysis.affected_users }}</p>
+  <p><strong>Urgency:</strong> {{ analysis.urgency_reason }}</p>
+
+  <h3>Next Steps</h3>
+  <ol>
+    {% for step in analysis.next_steps %}
+      <li>{{ step }}</li>
+    {% endfor %}
+  </ol>
+
+  <h3>Missing Info</h3>
+  <ul>
+    {% for item in analysis.missing_info %}
+      <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Draft Customer Reply</h3>
+  <blockquote>{{ analysis.customer_reply }}</blockquote>
+  <p class="review-note">{{ analysis.human_review_note }}</p>
+</section>

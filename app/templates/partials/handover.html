@@ -1,0 +1,14 @@
+<section class="handover">
+  <p class="eyebrow">Shift report / {{ handover.shift_date }}</p>
+  <h3>Critical</h3>
+  <ul>{% for item in handover.critical %}<li>{{ item }}</li>{% endfor %}</ul>
+  <h3>Blocked</h3>
+  <ul>{% for item in handover.blocked %}<li>{{ item }}</li>{% endfor %}</ul>
+  <h3>Waiting on Customer</h3>
+  <ul>{% for item in handover.waiting_on_customer %}<li>{{ item }}</li>{% endfor %}</ul>
+  <h3>Engineering Escalated</h3>
+  <ul>{% for item in handover.engineering_escalated %}<li>{{ item }}</li>{% endfor %}</ul>
+  <h3>Next Shift Actions</h3>
+  <ol>{% for item in handover.next_shift_actions %}<li>{{ item }}</li>{% endfor %}</ol>
+  <p class="review-note">{{ handover.human_review_note }}</p>
+</section>

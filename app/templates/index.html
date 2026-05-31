@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Microsoft Build AI 2026 Prototype</p>
+      <h1>SupportOps Copilot</h1>
+      <p class="lede">AI triage, knowledge assistance, and shift handover for enterprise support teams.</p>
+    </div>
+    <div class="status-strip">
+      <span>Mode: {{ "Azure OpenAI" if settings.use_azure else "Mock AI fallback" }}</span>
+      <span>20 synthetic tickets</span>
+      <span>Human review required</span>
+    </div>
+  </header>
+
+  <section class="metrics">
+    <div><strong>4</strong><span>P1 incidents</span></div>
+    <div><strong>7</strong><span>P2 SLA risks</span></div>
+    <div><strong>3</strong><span>domains</span></div>
+    <div><strong>7</strong><span>SOP runbooks</span></div>
+  </section>
+
+  <section class="workspace">
+    <aside class="queue">
+      <div class="section-title">
+        <span>Incoming Queue</span>
+        <form method="post" action="/seed"><button class="ghost" type="submit">Reset</button></form>
+      </div>
+      {% for ticket in tickets %}
+        <button class="ticket-row"
+          hx-get="/tickets/{{ ticket.id }}"
+          hx-target="#ticket-panel"
+          hx-swap="innerHTML">
+          <span class="priority {{ ticket.severity|lower }}">{{ ticket.severity }}</span>
+          <span>
+            <strong>{{ ticket.id }}</strong>
+            <small>{{ ticket.title }}</small>
+          </span>
+          <em>{{ ticket.domain }}</em>
+        </button>
+      {% endfor %}
+    </aside>
+
+    <section class="main-panel">
+      <div id="ticket-panel">
+        {% include "partials/ticket_detail.html" %}
+      </div>
+    </section>
+
+    <aside class="side-panel">
+      <section class="tool-panel">
+        <h2>Knowledge Assistant</h2>
+        <form hx-post="/knowledge" hx-target="#knowledge-result" hx-swap="innerHTML">
+          <textarea name="question" rows="4">What should I check for 403 after deployment?</textarea>
+          <button type="submit">Ask SOPs</button>
+        </form>
+        <div id="knowledge-result" class="result-empty">Ask a runbook question to get grounded support guidance.</div>
+      </section>
+
+      <section class="tool-panel">
+        <h2>Shift Handover</h2>
+        <p>Generate a clean report for the next support shift from current queue status.</p>
+        <button hx-post="/handover" hx-target="#handover-result" hx-swap="innerHTML">Generate Handover</button>
+        <div id="handover-result" class="result-empty">No handover generated yet.</div>
+      </section>
+    </aside>
+  </section>
+
+  <section class="architecture">
+    <h2>Architecture</h2>
+    <div class="flow">
+      <span>Support tickets</span>
+      <span>SOP runbooks</span>
+      <span>FastAPI orchestration</span>
+      <span>Azure OpenAI / mock fallback</span>
+      <span>Dashboard actions</span>
+    </div>
+  </section>
+</main>
+{% endblock %}
