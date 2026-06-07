@@ -78,5 +78,40 @@
       <span>Dashboard actions</span>
     </div>
   </section>
+
+  <section class="v2-panel">
+    <div class="section-title">
+      <div>
+        <p class="eyebrow">Version 2 / SNOW Automation</p>
+        <h2>Incident Automation Runner</h2>
+      </div>
+      <span class="badge">Safe demo mode</span>
+    </div>
+    <p class="lede">Simulates ServiceNow incidents and server checks for assignment, memory, CPU, and Windows service tickets. Real SNOW/RDP credentials should be connected only through secure vault-backed connectors.</p>
+    <div class="automation-grid">
+      {% for incident in snow_incidents %}
+        <article class="automation-card">
+          <div>
+            <span class="priority {{ incident.priority|lower }}">{{ incident.priority }}</span>
+            <strong>{{ incident.number }}</strong>
+          </div>
+          <h3>{{ incident.short_description }}</h3>
+          <p>{{ incident.description }}</p>
+          <dl>
+            <div><dt>Group</dt><dd>{{ incident.assignment_group }}</dd></div>
+            <div><dt>Server</dt><dd>{{ incident.server or "None" }}</dd></div>
+            <div><dt>State</dt><dd>{{ incident.state }}</dd></div>
+          </dl>
+          <button
+            hx-post="/automation/{{ incident.number }}/run"
+            hx-target="#automation-result"
+            hx-swap="innerHTML">
+            Run Automation
+          </button>
+        </article>
+      {% endfor %}
+    </div>
+    <div id="automation-result" class="result-empty">Run a v2 automation to generate SNOW-ready work notes.</div>
+  </section>
 </main>
 {% endblock %}

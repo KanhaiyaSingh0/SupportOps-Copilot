@@ -21,3 +21,13 @@ def test_analyze_ticket_partial():
     assert response.status_code == 200
     assert "Identity Platform" in response.text
     assert "Draft Customer Reply" in response.text
+
+
+def test_v2_automation_route_generates_work_notes():
+    client = TestClient(app)
+
+    response = client.post("/automation/INC0010422/run")
+
+    assert response.status_code == 200
+    assert "SNOW Work Notes Draft" in response.text
+    assert "Memory utilization" in response.text

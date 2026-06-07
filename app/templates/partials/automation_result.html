@@ -1,0 +1,34 @@
+<section class="automation-result">
+  <p class="eyebrow">{{ result.kind.value.replace("_", " ") }} / {{ result.risk }} risk</p>
+  <h3>{{ result.incident.number }}: {{ result.summary }}</h3>
+
+  <div class="analysis-grid">
+    <div><span>Assignment</span><strong>{{ result.recommended_assignment_group }}</strong></div>
+    <div><span>Server</span><strong>{{ result.incident.server or "Not required" }}</strong></div>
+    <div><span>Priority</span><strong>{{ result.incident.priority }}</strong></div>
+    <div><span>Next action</span><strong>{{ result.next_action }}</strong></div>
+  </div>
+
+  {% if result.metric %}
+    <h4>Server Metrics</h4>
+    <dl class="facts">
+      <div><dt>Server</dt><dd>{{ result.metric.server }}</dd></div>
+      <div><dt>Memory</dt><dd>{{ result.metric.memory_used_percent }}%</dd></div>
+      <div><dt>CPU</dt><dd>{{ result.metric.cpu_used_percent }}%</dd></div>
+      <div><dt>Checked</dt><dd>{{ result.metric.checked_at }}</dd></div>
+    </dl>
+  {% endif %}
+
+  {% if result.services %}
+    <h4>Service Status</h4>
+    <ul>
+      {% for service in result.services %}
+        <li>{{ service.name }}: <strong>{{ service.status }}</strong></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h4>SNOW Work Notes Draft</h4>
+  <blockquote>{{ result.work_notes }}</blockquote>
+  <p class="review-note">Demo mode: no real server login or ServiceNow update was performed. Human approval required before live remediation.</p>
+</section>
