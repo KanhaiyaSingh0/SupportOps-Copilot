@@ -7,3 +7,4 @@ supportops.db
 *.sqlite
 *.sqlite3
 server.*.log
+outputs/
